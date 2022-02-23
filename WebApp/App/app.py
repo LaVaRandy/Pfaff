@@ -8,7 +8,7 @@ import pandas as pd
 import numpy as np
 # Json framework to read data
 import json
-#Plotly 
+#Plotly
 import plotly.graph_objs as go
 import plotly.offline as po
 
@@ -23,7 +23,7 @@ def _run_on_start():
     y = []
     z = []
     for fn in os.listdir('data'):
-        with open('data/'+fn) as json_file:   
+        with open('data/'+fn) as json_file:
             json_data = json.load(json_file)
         x.extend(json_data['x'])
         y.extend(json_data['y'])
@@ -46,14 +46,14 @@ def index():
         )
         fig = dict(data=data, layout=layout)
 
-        plotcode = po.plot(fig, 
+        plotcode = po.plot(fig,
         output_type='div',
         validate = True, show_link=False)
         return render_template('chart.html', plotcode=plotcode)
     except Exception as e:
         estr = repr(e)
         return render_template('404.html', ecode=estr), 404
-        
+
 
 @app.route("/geo")
 def geo():
@@ -66,13 +66,13 @@ def geo():
             #hoverinfo = '',
             marker=dict(
                 size=5,
-                color = 3.6*df['v'], 
+                color = 3.6*df['v'],
                 colorscale='Jet',
                 showscale=True
             ),
             type = 'scatter'
         )
-        
+
         layout = dict(
             #title = 'Test Drive Velocity v/(km/h)',
             xaxis=dict(
@@ -102,6 +102,28 @@ def geo():
     except Exception as e:
         estr = repr(e)
         return render_template('404.html', ecode=estr), 404
+<<<<<<< Updated upstream
+=======
 
-app.run(debug = True, host='0.0.0.0')
+@app.route("/hist")
+def hist():
+    try:
+        global df
+        data = go.Histogram(x = 3.6*df['v'])
+        layout = dict(
+            title = 'Test Drive Velocity Distribution v/(km/h)',
+        )
 
+        fig = dict(data=data, layout=layout)
+
+        plotcode = po.plot(fig, #include_plotlyjs=False,
+        output_type='div',
+        validate = True, show_link=False)
+        return render_template('chart.html', plotcode=plotcode)
+    except Exception as e:
+        print(e)
+        estr = repr(e)
+        return render_template('404.html'), 404
+>>>>>>> Stashed changes
+
+app.run(debug = True, host='0.0.0.0', port=int(os.getenv('PORT', 4444)))
