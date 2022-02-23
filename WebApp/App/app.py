@@ -102,8 +102,6 @@ def geo():
     except Exception as e:
         estr = repr(e)
         return render_template('404.html', ecode=estr), 404
-<<<<<<< Updated upstream
-=======
 
 @app.route("/hist")
 def hist():
@@ -124,6 +122,5 @@ def hist():
         print(e)
         estr = repr(e)
         return render_template('404.html'), 404
->>>>>>> Stashed changes
 
 app.run(debug = True, host='0.0.0.0', port=int(os.getenv('PORT', 4444)))
